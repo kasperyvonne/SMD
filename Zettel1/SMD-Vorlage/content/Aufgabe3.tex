@@ -1,0 +1,83 @@
+\section{Aufgabe 3}
+\label{sec:Aufgab3}
+
+Um einen Wert für die Normierungskonstante $N$ zu finden wird verwendet, dass
+\begin{equation*}
+  \int_{0}^\infty f(v) \symup{d}v = \int_{0}^\infty 4 \pi N \exp{(-\alpha v^2)} v^2 \symup{d}v \stackrel{!}{=} 1.
+\end{equation*}
+gilt. Dabei ist $\alpha=\frac{m}{2 \symup{k}_{\symup{B}} T}$.\\
+Durch Lösen des Gaußintegrals ergibt sich:
+\begin{equation*}
+  4 \pi N \frac{\Gamma \left(\frac{3}{2}\right)}{2 \alpha^{\frac{3}{2}}} =
+  4 \pi N \frac{\left(\frac{\sqrt{\pi}}{2}\right)}{2 \alpha^{\frac{3}{2}}} \stackrel{!}{=}1
+\end{equation*}
+Also ist die Normierungskonstante:
+\begin{align*}
+  N &= \left(\frac{\alpha}{\pi}\right)^{\frac{3}{2}}\\
+    &= \left(\frac{m}{2 \pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}}
+\end{align*}
+
+\subsection{Teil a)}
+Um die wahrscheinlichste Geschwindigkeit $v_m$ zu bestimmen, wird das Maximum der
+Wahrscheinlichkeitsdichte $f(v)$ bestimmt.
+\begin{equation*}
+  f\prime (v)= 8 \pi \left(\frac{m}{2\pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}}
+  \exp(-\alpha v^2) \left(v-\alpha v^3\right)  \stackrel{!}{=}0
+\end{equation*}
+Das ist erfüllt für
+\begin{align*}
+  v_1&=0\\
+  v_{2/3}&=\pm\sqrt{\frac{1}{\alpha}}\\
+         &=\pm \sqrt{\frac{2 \symup{k}_{\symup{B}} T}{m}} .
+\end{align*}
+Für ein Maximum gilt $f\prime \prime(v) < 0$.
+\begin{equation*}
+  f\prime \prime(v)= 8 \pi \left(\frac{m}{2\pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}}
+  \exp(-\alpha v^2) \left(2\alpha^2 v^4 - 5\alpha v^2 +1\right) < 0
+\end{equation*}
+\begin{align*}
+    f\prime \prime(v_1)&=8 \pi \left(\frac{m}{2\pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}}>0\\
+    f\prime \prime(v_2)&=-16  \pi \left(\frac{m}{2\pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}} \exp(-1) <0
+\end{align*}
+$v_3=-\sqrt{\frac{2 \symup{k}_{\symup{B}} T}{m}}$ liegt außerhalb des Definitionsbereiches.
+Damit ist $v_m=v_2= +\sqrt{\frac{2 \symup{k}_{\symup{B}} T}{m}} $ die wahrscheinlichste Geschwindigkeit.
+
+\subsection{Teil b)}
+Die mittlere Geschwindigkeit $\textlangle v \textrangle$ entspricht dem
+Erwartungswert der Geschwindigkeitsverteilung, dies wird mit
+\begin{equation*}
+  \langle v \rangle =   \int_{0}^{\infty}  v f(v) \symup{d}v
+\end{equation*}
+berechnet.
+\begin{align*}
+  \textlangle v \textrangle &=   \int_{0}^{\infty}  v f(v) \symup{d}v \\
+   &= \int_{0}^{\infty} 4 \pi\left(\frac{m}{2 \pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}} \exp{(-\alpha v^2)} v^3 \symup{d}v\\
+   &= 4 \pi\left(\frac{m}{2 \pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}} \frac{\Gamma \left(\frac{3+1}{2}\right)}{2\alpha ^{\frac{3+1}{2}}}\\
+   &= 4 \pi\left(\frac{m}{2 \pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}} \frac{1}{2\alpha^2}\\
+   &= \sqrt{\frac{8 k_{\symup{B}} T}{\pi m}}
+\end{align*}
+
+\subsection{Teil d)}
+Aus Teil a) ist die maximale Höhe bekannt. Die halbe Höhe beträgt also7
+\begin{equation*}
+\frac{1}{2} f(v)_{\symup{max}} =\frac{1}{2}\sqrt{\frac{2 \symup{k}_{\symup{B}} T}{m}} = \sqrt{\frac{\symup{k}_{\symup{B}} T}{2m}}.
+\end{equation*}
+Um die Breite der Verteilung zu dieser Höhe zu finden, wird das Nullstellenproblem :
+\begin{equation*}
+  0 = 4 \pi \left(\frac{m}{2 \pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}} \exp{(-\alpha v^2)} v^2 - \sqrt{\frac{\symup{k}_{\symup{B}} T}{2m}}
+\end{equation*}
+gelöst.
+\subsection{Teil e)}
+Für die Standardabweichung der Geschwindigkeit $\sigma = \langle v^2 \rangle - {\langle v \rangle}^2$
+muss zunächst das zweite Moment der Verteilung bestimmt werden:
+\begin{equation*}
+  \langle v^2 \rangle = 4 \pi \left(\frac{m}{2 \pi \symup{k}_{\symup{B}} T}\right)^{\frac{3}{2}} \int_{0}^{\infty} \exp{(-\alpha v^2)} v^4 \symup{d}v.
+\end{equation*}
+Lösen des Integrals liefert:
+\begin{equation*}
+  \langle v^2 \rangle = \frac{3}{\alpha} = \frac{6 k_{\symup{B}} T}{m}.
+\end{equation*}
+Daraus folgt:
+\begin{equation*}
+  \sigma = \frac{3\pi-4}{\alpha \pi} = \frac{2 k_{\symup{B}} T (3\pi-4)}{m \pi} .
+\end{equation*}
