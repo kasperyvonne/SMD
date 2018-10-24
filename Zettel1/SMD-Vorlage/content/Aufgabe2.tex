@@ -1,48 +1,23 @@
-\section{Auswertung}
-\label{sec:Auswertung}
+\section{Aufgabe 2}
+\label{sec:Aufgabe2}
+\subsection{Aufgabe 2 a)}
+Die Gleichung ist nicht für überall numerisch stabil, da für $\beta^2$ Nahe 1  und für $\theta$ nahe $\symup{k}\pi$ ($\symup{k}\in \symbb{N}$) erstens eine Subtraktion gleich großer Zahlen und daraus folgend eine Division durch sehr kleine Zahlen stattfindet.\\
 
-% \begin{figure}
-%   \centering
-%   \includegraphics{plots/plot.pdf}
-%   \caption{Plot.}
-%   \label{fig:plot}
-% \end{figure}
+\subsection{Aufgabe 2 b)}
+Setzt man nun $\symup{E_e} = \SI{50}{\giga\electronvolt}$, sowie die Feinstrukturkonstante $\alpha = \frac{1}{137}$ und die Elektronenmasse $m_e = \SI{511}{\kilo\electronvolt}$ in die Gleichung für den Wirkungsquerschnitt ein, erkennt man das die Gleichung nahe $\symup{k}\pi$ ( $\symup{k}\in \symbb{N}$) tatsächlich instabil wird.
+Für diesen Fall wird eben gerade $\beta^2$ zu:
+\begin{equation}
+  \beta^2 = 1-\gamma^2 = 1- {\left(\frac{m_e}{\symup{E_e}}\right)}^2 \approx 0.99989 \approx 1
+\end{equation}
 
+Der Nenner der Gleichung wird wir folgt umgeformt.
+\begin{align}
+  1-\beta^2\cos{(\theta)}^2 &= \sin{(\theta)}^2 + \cos^2{(\theta)} -\beta\cos{(\theta)}^2\\
+  &= \sin{(\theta)}^2 + \cos^2{(\theta)}(1-\beta^2)\\
+  &= \sin{(\theta)}^2 + \cos^2{(\theta)}(\frac{1}{\gamma^2})
+\end{align}
 
-
-% \begin{table}
-%    % Notation :  {% nicht entfernen ist sehr wichtig sonst Fehler !!
-% \parbox{0.48\textwidth}{% %Ermöglicht zwei Tabellen neben einander
-%   \centering
-%   \sisetup{round-mode = places , round-precision = 0,scientific-notation=fixed, fixed-exponent = 0}
-%          %rundet Werte aus Stelle, Stelle = ,  macht einen bestimmten festen exponenten
-%   \resizebox{\textwidth}{!}{%  % skaliert zu große Tabellen
-%   \begin{tabular}{S@{${}\pm{}$} S} % fügt plus minus Fehler Schreibweise hinzu
-%     \toprule
-%      $\text{e}_b / \si{\milli\meter}$ &
-%      $\text{d}_b /\si{\milli\meter} $ & $\text{f}_b / \si{\milli\meter} $\\
-%     \midrule
-%     \bottomrule
-%   \end{tabular}
-%   % }
-%   \caption{Tabellenunterschrift}
-%   \label{tab:tab}
-% }
-% % \end{table}
-% % \begin{table}
-% \parbox{0.48\textwidth}{%
-%   \centering
-%   \sisetup{round-mode = places , round-precision = 0,scientific-notation=fixed, fixed-exponent = 0}
-%   % \resizebox{\textwidth}{!}{%
-%   \begin{tabular}{S@{${}\pm{}$} S}
-%     \toprule
-%      $\text{e}_b / \si{\milli\meter}$ &
-%      $\text{d}_b /\si{\milli\meter} $ & $\text{f}_b / \si{\milli\meter} $\\
-%     \midrule
-%     \bottomrule
-%   \end{tabular}
-%   % }
-%   \caption{Tabellenunterschrift}
-%   \label{tab:tab}
-% }
-% \end{table}
+\subsection{Aufgabe 2 c)}
+Die Gegenüberstellung der ursprünglichen und der umgeformten Gleichung sind in dem Graphen \ref{fig:gegenstellung}
+\subsection{Aufgabe 2 d)}
+\subsection{AUfgabe 2 e)}
