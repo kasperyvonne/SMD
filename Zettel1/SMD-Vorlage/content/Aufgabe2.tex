@@ -15,6 +15,7 @@ Der Nenner der Gleichung wird wir folgt umgeformt.
   &= \sin{(\theta)}^2 + \cos^2{(\theta)}(1-\beta^2)\\
   &= \sin{(\theta)}^2 + \cos^2{(\theta)}(\frac{1}{\gamma^2})
 \end{align}
+
 \subsection{Aufgabe 2 c)}
 Die Gegenüberstellung der ursprünglichen und der umgeformten Gleichung sind in dem Graphen \ref{fig:gegenstellung}
 \begin{figure}[H]
@@ -24,5 +25,27 @@ Die Gegenüberstellung der ursprünglichen und der umgeformten Gleichung sind in
   \label{fig:gegenstellung}
 \end{figure}
 \subsection{Aufgabe 2 d)}
-Berechnung der Konditionszahlen
-\subsection{AUfgabe 2 e)}
+Um die Konditionszahl zu Berechnen wird zunächst
+\begin{equation*}
+  \frac{\symup{d}\sigma}{\symup{d}\Omega} := f(\theta)
+\end{equation*}
+und
+\begin{equation}
+A := \frac{\alpha^2}{s}
+\end{equation}
+festgelegt.\\
+Umformen von $f(\theta)$ mithilfe des trigonometrischen Pythagoras ergibt:
+\begin{equation}
+  f(\theta) = A \frac{3-\cos^2(\theta)}{1-\beta^2\cos^2(\theta)}
+\end{equation}
+Die Ableitung ergibt sich dann mithilfe der Quotientenregel und weiteren Umformungen durch trigonometrische Additionstheoreme:
+\begin{align}
+  f'(\theta) &= A\cdot\left(\frac{-2\cos(\theta)\sin(\theta)\cdot(\beta^2\cos^2(\theta) - 1 ) + 2\beta^2\cos(\theta)\sin(\theta)(\cos^2(\theta)-3)}{(1-\beta^2\cos^2(\theta))^2}\right) \\
+  &= 2A\cdot\left(\frac{1-3\beta^2\sin(\theta)\cos(\theta)}{(1-\beta^2\cos^2(\theta))^2}\right)
+\end{align}
+Für die Konditionszahl ergibt sich dann
+\begin{align}
+  K :&= \left|\theta\frac{f'(\theta)}{f(\theta)}\right| \\
+  &= \left|\theta \frac{1-3\beta^2\sin(\theta)\cos(\theta)}{(1-\beta^2\cos^2(\theta))(\cos^2(\theta)-3)}\right|
+\end{align}
+\subsection{Aufgabe 2 e)}
