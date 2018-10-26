@@ -1,3 +1,53 @@
 \section{Aufgabe 2}
 \label{sec:Aufgabe2}
-\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+%\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+\subsection{Teil a)}
+Zufallszahlgeneratoren wiederholen sich ab einer gewissen Anzahl an Rechenoperationen.
+Die Periodenlänge nennen wir $P$.\\
+Für diesen Aufgabenteil wird ein linear-kongruenter Zufallszahlgenerator mit der
+Vorschrift
+\begin{equation*}
+  x_n=(a\cdot x_{n-1}+3)\%1024
+\end{equation*}
+verwendet. Der Seed $x_0$ wurde für Aufgabenteil a) gleich Null gewählt.
+Dabei wurde der Multiplikator $a$ auf einem Bereich von $0-80$ untersucht.
+In der Abbildung \ref{fig:Periodenlaenge} ist die Periodenlänge in Abhängigkeit
+des Multiplikators $a$ dargestellt.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{plots/Periodenlaenge.png}
+  \caption{Darstellung der Periodenlänge in Abhängigkeit des Multiplikators.}
+  \label{fig:Periodenlaenge}
+\end{figure}
+Die theoretisch maximale Periodenlänge entspricht dem Modulus, hier $m=1024$.
+Diese Periodenlänge wird auch erreicht.\\
+In Abbildung \ref{fig:Periodenlaenge} ist die maximale Periodenlänge
+eingezeichnet. Die Werte für $a$ bei denen $P$ maximal ist, sind:
+\begin{equation*}
+  1,5,9,13,17,21,25,29,33,37,41,45,49,53,57,61,65,69,73,77
+\end{equation*}
+Um eine maximale Periodenlänge zu erreichen müssen folgende Punkte gelten:
+\begin{itemize}
+  \item $b$ $\neq$ 0
+  \item $b$ und $m$ sind teilerfremd
+  \item jeder Primfaktor von $m$ teilt $(a-1)$
+  \item wenn $m$ durch 4 teilbar ist, ist es auch $(a-1)$
+\end{itemize}
+Bei der hier verwendeten Wahl von $b$ und $m$ sind die ersten beiden Punkte erfüllt.
+Um den nächsen Punkt zu überprüfen, wird eine Primfaktorzerlegung von $m$ gesucht.
+Da
+\begin{equation*}
+  m=1024=2^{10}
+\end{equation*}
+eine Zweierpotenz ist und nach dem Fundamentalsatz der Arithmetik die Eindeutigkeit
+der Primfaktorzerlegung sichergestellt ist, ist 2 der einzige Primfaktor.
+Alle Werte für $a$, bei den die Periodenlänge maximal ist, sind ungerade, das heißt,
+dass $(a-1)$ durch 2 teilbar ist. Damit ist auch der dritte Punkt erfüllt.
+Für den vierten Punkt: $1024/4=256$ und für $(a-1)$ gilt:
+\begin{equation*}
+  1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19
+\end{equation*}
+und damit bis auf $(a-1)=0$ auch durch 4 teilbar.\\
+Also können die Ergebnisse mit den Regeln für \textit{gute} linear-kongruente
+Generatoren erklärt werden.
+\subsection{Teil b)}
