@@ -51,3 +51,72 @@ und damit bis auf $(a-1)=0$ auch durch 4 teilbar.\\
 Also können die Ergebnisse mit den Regeln für \textit{gute} linear-kongruente
 Generatoren erklärt werden.
 \subsection{Teil b)}
+Es wurden 10000 Zufallszahlen nach der Vorschrift
+\begin{equation*}
+  x_n=(1601\cdot x_{n-1}+3456)\%10000
+\end{equation*}
+erzeugt.\\
+Die Werte sind in Abbildung \ref{fig:Hist2b} in einem Histogramm dargestellt.
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.6\textwidth]{plots/Zufallszahlen2b.png}
+  \caption{Histogramm der gezogenen Zufallszahlen.}
+  \label{fig:Hist2b}
+\end{figure}
+Das Ergebnis zeigt, dass der linear-kongruente Generator keine wirkliche Gleichverteilung
+erzeugt, was ein \textit{guter} Zufallszahlengenerator tun sollte.
+Die Höhe der einzelnen Spitzen ist dabei (minimal) vom Seed abhängig, allerdings
+wird nie eine echte Gleichverteilung entstehen.
+\subsection{Teil c)}
+In den folgenden Abbildungen sind Paare und Tripletts nachfolgender Zahlen dargestellt.
+\begin{figure}[H]
+  \begin{subfigure}{0.5\textwidth}
+   \centering
+   \includegraphics[width=0.8\textwidth]{plots/Paare2c.png}
+   \label{fig:Paare2c}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\textwidth]{plots/Triplets2c.png}
+  \label{fig:Tripletts2c}
+\end{subfigure}
+\caption{Scatterplots der jeweils aufeinander folgenden Paaren und Tripletts für
+          den linear-kongruenten Generator.}
+\end{figure}
+Es ist zu erkennen, dass die Punkte in beiden Scatterplots eindeutige Muster
+erzeugen. In dem 2D-Plot zeigen sich Geraden, was auch nicht verwundet, da
+die Vorschrift im Endeffekt eine Geradengleichung beschreibt, mit einem Versatz
+durch die Modulo Operation. Dies wird Marsaglia Effekt genannt. Dies sollte ein
+\textit{guter} Zufallszahlengenerator nicht zeigen.
+\subsection{Teil d)}
+Analog zum Teil c) wurden die Plots für den \textbf{numpy.random.unform()}-Generator
+gemacht.
+\begin{figure}[H]
+  \begin{subfigure}{0.5\textwidth}
+   \centering
+   \includegraphics[width=0.8\textwidth]{plots/Paare2d.png}
+   \label{fig:Paare2d}
+\end{subfigure}
+\begin{subfigure}{0.5\textwidth}
+  \centering
+  \includegraphics[width=0.8\textwidth]{plots/Triplets2d.png}
+  \label{fig:Tripletts2d}
+\end{subfigure}
+\caption{Scatterplots der jeweils aufeinander folgenden Paaren und Tripletts für
+den \textbf{numpy.random.unform()}-Generator.}
+\end{figure}
+Die Plots zeigen keine eindeutig erkennbare Muster zu erkennen, was darauf schließen lässt,
+dieser Zufallszahlgenerator nicht auf dem Prinzio des linear kongruenten Generator beruht.
+\subsection{Teil e)}
+Ob der Generator aus Aufgabenteil a) den Wert $\frac{1}{2}$ erzeugen kann hängt sowohl
+vom Wert des Seeds $x_0$ als auch von dem es Multiplikators $a$ ab. Um eine Kombination
+zu finden, welche den Wert $\frac{1}{2}$ erzeugen kann, wird die Ausgangsgleichung
+umgeformt. Wenn $x_1 = \frac{1}{2}$ sein soll, gilt:
+\begin{align*}
+  \frac{1}{2} &= (a\cdot x_0 +3)\%1024\\
+  512 &= (a\cdot x_0 +3)\\
+  509 &= a\cdot x_0 \\
+  \frac{509}{a} &=x_0
+\end{align*}
+Ist nun der Wert von $a=1$ ist ein Startwert, der den Wert $\frac{1}{2}$
+erzeugen kann, $x_0=509$. Dies ist eine Moglichkeit den Wert $\frac{1}{2}$ hat.

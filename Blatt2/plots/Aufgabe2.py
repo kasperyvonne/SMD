@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 
 # Für a) und e)
@@ -33,16 +34,71 @@ def LinKongruent(x, n):
     return(Werte/10000)
 
 
+# Aufgabenteil a)
+
 n = 81
-a = np.arange(0, n)
-b = Periodenlaenge(n, 0)
+Wertebereich = np.arange(0, n)
+Periodenlaenge = Periodenlaenge(n, 0)
 print('Die Periodenlänge ist maximal (also P(a)=m=1024) bei a=')
-print(a[b == 1024])
-plt.plot(a, b, label='P(a)')
+print(Wertebereich[Periodenlaenge == 1024])
+plt.plot(Wertebereich, Periodenlaenge, label='P(a)')
 plt.ylim(0, 1200)
 plt.xlabel(r'Multiplikator $a$')
 plt.ylabel(r'Periodenlänge $P(a)$')
 plt.axhline(y=1024, linewidth=1, linestyle='--', color='r')
 plt.legend(loc='best')
-#plt.savefig('Periodenlaenge2a.pdf')
-plt.show()
+plt.savefig('Periodenlaenge.png')
+plt.clf()
+
+# Aufgabenteil b)
+
+n = 10000
+Zufallszahlen = LinKongruent(1, 10000)
+plt.hist(Zufallszahlen, bins=99)
+plt.xlabel(r'Zufallszahlen')
+plt.ylabel(r'Anzahl')
+plt.savefig('Zufallszahlen2b.png')
+plt.clf()
+
+# Aufgabenteil c)
+Zufallszahlen2 = Zufallszahlen.reshape(5000, 2)
+x = Zufallszahlen2[:, 0]
+y = Zufallszahlen2[:, 1]
+plt.scatter(x, y, s=0.3)
+plt.savefig('Paare2c.png')
+plt.clf()
+Zufallszahlen3 = LinKongruent(1, 9999)
+Zufallszahlen3 = Zufallszahlen3.reshape(3333, 3)
+x = Zufallszahlen3[:, 0]
+y = Zufallszahlen3[:, 1]
+z = Zufallszahlen3[:, 2]
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+# ax.init_view(45, 30) # funktioniert leider nicht
+ax.scatter(x, y, z, lw=0, alpha=0.3)
+plt.savefig('Triplets2c.png')
+plt.clf()
+
+# Aufgabenteil d)
+ZZ = np.random.uniform(0, 1, 10000)
+ZZ2 = ZZ.reshape(5000, 2)
+x = ZZ2[:, 0]
+y = ZZ2[:, 1]
+plt.scatter(x, y, s=0.3, c='r')
+plt.savefig('Paare2d.png')
+plt.clf()
+
+ZZ3 = np.random.uniform(0, 1, 9999)
+ZZ3 = ZZ3.reshape(3333, 3)
+x = ZZ3[:, 0]
+y = ZZ3[:, 1]
+z = ZZ3[:, 2]
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.scatter(x, y, z, lw=0, alpha=0.3, c='r')
+plt.savefig('Triplets2d.png')
+plt.clf()
+
+# Aufgabenteil e)
