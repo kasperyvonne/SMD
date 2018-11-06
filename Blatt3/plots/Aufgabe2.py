@@ -7,24 +7,48 @@ from uncertainties import correlated_values, correlation_matrix
 from uncertainties import ufloat
 from uncertainties.unumpy import (nominal_values as noms, std_devs as stds)
 import scipy.stats as stat
-## Make some Randoms ##
-unicorn = np.random.uniform(0,1,100)
 ## Dat Algorithm ##
-def Metropolis(xzero,num, step):
+def Metropolis(xzero,num, step,distr,PDF):
 	position = xzero
+	countDooku = 0
 	randoms = np.array([])	
-	while (num != np.shape(randoms)):
-		xnext = np.random.uniform((position - step),(position + step),1)
-		P = min(1, (stat.uniform.pdf(xnext,position,step) / stat.uniform.pdf(position,position,step)))
+	while (num != randoms.size):
+		xnext = distr(position-step,position + step,1)
+		P =  (PDF(xnext,xnext-step,xnext+step) / PDF(position,position-step,position+step))
 		rand = np.random.uniform(0,1,1)
+		countDooku+=1
+		Iteration = np.array([])
 		if rand <= P:
 			position = xnext
 			randoms = np.append(randoms,position)
+			Iteration = np.append(Iteration,countDooku)
+			
 		else:
-			print("continued")
+	#		print("continued")
 			continue
-	return randoms
-print(Metropolis(10,1,2))		
+	return randoms,Iteration
+## Whole lotta Plancking ##
+lambda_ = 0.51
+
+def Planckdestr(left,right,num):
+	if left <0:
+		return stat.planck.rvs(lambda_,size=num)
+	else:
+		return stat.planck.rvs(lambda_,loc=left,size=num)	
+
+def PlanckPDF(x,left,right):
+	if left <0:
+		return stat.planck.pmf(x,lambda_)
+	else:
+		return stat.planck.pmf(x,lambda_,loc = left) 
+
+
+plancks,planckitis = Metropolis(30,100,2,Planckdestr,PlanckPDF)		
+planckhist, planckOnTheEdgeOfSanity = np.histogram(plancks,bins='auto')
+plt.hist(plancks)
+plt.hist(planckhist, bins= planckOnTheEdgeOfSanity)
+
+plt.show()
 
 #x = np.linspace(0, 10, 1000)
 #mhub = const.value('Bohr magneton') #das gelibete Borhsche Magneton zeigt wie man Scipy Constants benutzt
