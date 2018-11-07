@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 import numpy as np
 import uncertainties.unumpy as unp
 import scipy.constants as const
@@ -8,47 +8,63 @@ from uncertainties import ufloat
 from uncertainties.unumpy import (nominal_values as noms, std_devs as stds)
 import scipy.stats as stat
 ## Dat Algorithm ##
-def Metropolis(xzero,num, step,distr,PDF):
+def Metropolis(xzero,num, step,PDF):
 	position = xzero
-	countDooku = 0
+	countDooku = 0 # d)
 	randoms = np.array([])	
+	Iteration = np.array([]) # d)
 	while (num != randoms.size):
-		xnext = distr(position-step,position + step,1)
-		P =  (PDF(xnext,xnext-step,xnext+step) / PDF(position,position-step,position+step))
+		xnext = np.random.uniform(position-step,position + step,1)
+		countDooku+=1 # d)
+		P =  min(1,PDF(xnext,xnext-step,xnext+step) / PDF(position,position-step,position+step))
 		rand = np.random.uniform(0,1,1)
-		countDooku+=1
-		Iteration = np.array([])
 		if rand <= P:
 			position = xnext
 			randoms = np.append(randoms,position)
-			Iteration = np.append(Iteration,countDooku)
+			Iteration = np.append(Iteration,countDooku) # d)
 			
 		else:
-	#		print("continued")
 			continue
-	return randoms,Iteration
+	return randoms,Iteration # a), d)
 ## Whole lotta Plancking ##
-lambda_ = 0.51
-
-def Planckdestr(left,right,num):
+#def Planckdestr(left,right,num):
+#	if left <0:
+#		return stat.planck.rvs(lambda_,size=num)
+#	else:
+#		return stat.planck.rvs(lambda_,loc=left,size=num)	
+#
+#def PlanckPDF(x,left,right):
+#	if left <0:
+#		return stat.planck.pmf(x,lambda_)
+#	else:
+#		return stat.planck.pmf(x,lambda_,loc = left) 
+def PlanckPDFBlatt(x,left,right):
 	if left <0:
-		return stat.planck.rvs(lambda_,size=num)
+		return 0
 	else:
-		return stat.planck.rvs(lambda_,loc=left,size=num)	
-
-def PlanckPDF(x,left,right):
-	if left <0:
-		return stat.planck.pmf(x,lambda_)
-	else:
-		return stat.planck.pmf(x,lambda_,loc = left) 
+		return (15/np.pi**4)*(x**3)/(np.exp(x) -1) 
 
 
-plancks,planckitis = Metropolis(30,100,2,Planckdestr,PlanckPDF)		
-planckhist, planckOnTheEdgeOfSanity = np.histogram(plancks,bins='auto')
-plt.hist(plancks)
-plt.hist(planckhist, bins= planckOnTheEdgeOfSanity)
-
-plt.show()
+## Planck Plott ##
+plancks,planckitis = Metropolis(30,10**5,2,PlanckPDFBlatt)		
+plt.hist(plancks,bins= 'auto',density = 'True',histtype='step', label="Metropolis-Daten")
+x = np.linspace(min(plancks),max(plancks),1000)
+plt.plot(x,PlanckPDFBlatt(x,min(plancks),max(plancks)),label= "Planck-Verteilung")
+plt.legend(loc='best')
+plt.xlabel(r'Zufallsvariablen')
+plt.ylabel(r'Wahrscheinlichkeit')
+plt.grid()
+plt.savefig('Planckvergleich.pdf')
+plt.clf()
+## Trace Plot ##
+plt.title('Trace Plot')
+plt.plot(planckitis,plancks,linewidth = 0.001)
+plt.xlabel(r'Iterationen')
+plt.ylabel(r'Zufallsvariablen')
+plt.grid()
+#plt.legend(loc='best')
+plt.savefig('Traceplot.pdf')
+#plt.show()
 
 #x = np.linspace(0, 10, 1000)
 #mhub = const.value('Bohr magneton') #das gelibete Borhsche Magneton zeigt wie man Scipy Constants benutzt
