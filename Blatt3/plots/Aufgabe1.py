@@ -1,7 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy import optimize
-import timeit
+import time
+
 
 # Definitionen und so
 def Planck(x):
@@ -31,17 +32,19 @@ x = np.linspace(0.0001, 20, 10000)
 xmax = optimize.brentq(PlanckAbl, 2.5, 5)
 ymax = Planck(xmax)
 xs = optimize.brentq(SchnittMajo, 4.5, 6, args=(ymax))
-# plt.plot(x, Majorante2(x))
-# plt.plot(x, Planck(x))
-# plt.ylim(0, 0.3)
-# plt.axhline(y=ymax)
-# plt.savefig('Majoranten.png')
-# plt.clf()
+plt.plot(x, Majorante2(x))
+plt.plot(x, Planck(x))
+plt.ylim(0, 0.3)
+plt.axhline(y=ymax)
+plt.axvline(x=xs, linestyle=':')
+plt.savefig('Majoranten.png')
+plt.clf()
 # Aufgabenteil a)
 
 
 def Rueckweisung():
     zaehler = 0
+    Verworfenezahlen = 0
     Zufallszahlen = np.empty((100000, 2))
     while zaehler < 100000:
         xwert = np.random.uniform(0, 20)
@@ -49,25 +52,16 @@ def Rueckweisung():
         if(ywert <= Planck(xwert)):
             Zufallszahlen[zaehler] = [xwert, ywert]
             zaehler += 1
+        else:
+            Verworfenezahlen += 1
+    print("Es werden", Verworfenezahlen, "Zahlen verworfen")
     return(Zufallszahlen)
 
 
-TEST_RUECKWEISUNG = '''
-def Rueckweisung():
-    zaehler = 0
-    Zufallszahlen = np.empty((100000, 2))
-    while zaehler < 100000:
-        xwert = np.random.uniform(0, 20)
-        ywert = np.random.uniform(0, ymax)
-        if(ywert <= Planck(xwert)):
-            Zufallszahlen[zaehler] = [xwert, ywert]
-            zaehler += 1
-    return(Zufallszahlen)
-'''
-
-Zeit = timeit.timeit(TEST_RUECKWEISUNG, number=1)
+# Zeit = timeit.timeit(TEST_RUECKWEISUNG, number=1)
+start = time.time()
 Zahlen = Rueckweisung()
-plt.hist(Zahlen[:, 0], bins=100)
-plt.show()
-#print(Zahlen[:,1])
-print(Zeit)
+end = time.time()
+print("Die Rückweisungsmethode aus a) braucht", (end-start), "Sekunden")
+plt.hist(Zahlen[:, 0], bins=50)
+plt.savefig('Histogramm.png')
