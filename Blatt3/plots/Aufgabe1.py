@@ -62,6 +62,8 @@ def Rueckweisung():
 start = time.time()
 Zahlen = Rueckweisung()
 end = time.time()
+print("ymax =", ymax)
+print("Der Schnittpunkt liegt bei x=", xs)
 print("Die Rückweisungsmethode aus a) braucht", (end-start), "Sekunden")
 plt.hist(Zahlen[:, 0], bins=50)
 plt.savefig('Histogramm.png')

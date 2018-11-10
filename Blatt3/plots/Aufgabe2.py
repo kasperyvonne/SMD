@@ -1,4 +1,4 @@
-import matplotlib.pyplot as plt 
+import matplotlib.pyplot as plt
 import numpy as np
 import uncertainties.unumpy as unp
 import scipy.constants as const
@@ -11,7 +11,7 @@ import scipy.stats as stat
 def Metropolis(xzero,num, step,PDF):
 	position = xzero
 	countDooku = 0 # d)
-	randoms = np.array([])	
+	randoms = np.array([])
 	Iteration = np.array([]) # d)
 	while (num != randoms.size):
 		xnext = np.random.uniform(position-step,position + step,1)
@@ -22,7 +22,7 @@ def Metropolis(xzero,num, step,PDF):
 			position = xnext
 			randoms = np.append(randoms,position)
 			Iteration = np.append(Iteration,countDooku) # d)
-			
+
 		else:
 			continue
 	return randoms,Iteration # a), d)
@@ -31,22 +31,22 @@ def Metropolis(xzero,num, step,PDF):
 #	if left <0:
 #		return stat.planck.rvs(lambda_,size=num)
 #	else:
-#		return stat.planck.rvs(lambda_,loc=left,size=num)	
+#		return stat.planck.rvs(lambda_,loc=left,size=num)
 #
 #def PlanckPDF(x,left,right):
 #	if left <0:
 #		return stat.planck.pmf(x,lambda_)
 #	else:
-#		return stat.planck.pmf(x,lambda_,loc = left) 
+#		return stat.planck.pmf(x,lambda_,loc = left)
 def PlanckPDFBlatt(x,left,right):
 	if left <0:
 		return 0
 	else:
-		return (15/np.pi**4)*(x**3)/(np.exp(x) -1) 
+		return (15/np.pi**4)*(x**3)/(np.exp(x) -1)
 
 
 ## Planck Plott ##
-plancks,planckitis = Metropolis(30,10**5,2,PlanckPDFBlatt)		
+plancks,planckitis = Metropolis(30,10**5,2,PlanckPDFBlatt)
 plt.hist(plancks,bins= 'auto',density = 'True',histtype='step', label="Metropolis-Daten")
 x = np.linspace(min(plancks),max(plancks),1000)
 plt.plot(x,PlanckPDFBlatt(x,min(plancks),max(plancks)),label= "Planck-Verteilung")
