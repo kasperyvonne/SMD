@@ -7,6 +7,7 @@ from uncertainties import correlated_values, correlation_matrix
 from uncertainties import ufloat
 from uncertainties.unumpy import (nominal_values as noms, std_devs as stds)
 import pandas as pd 
+from functools import reduce
 ##Einlesen der Daten ##
 Pzero = pd.read_hdf('zwei_populationen.h5',key='P_0_10000')
 Pone = pd.read_hdf('zwei_populationen.h5',key='P_1')
@@ -22,19 +23,46 @@ Vp0 = np.cov(p0x,p0y)
 Vp1 = np.cov(p1x,p1y)
 Vp01 = np.cov([p0x,p1x],[p0y,p1y])
 ##Fisher Diskriminanzanalyse##
-S0 = np.sum((np.array([p0x,p0y]).T-mup0)**2) #Berechnung der Streuung der Klasse
-S1 = np.sum((np.array([p1x,p1y]).T-mup1)**2) #Berechnung der Streuung der Klasse
+p0 = np.array([p0x,p0y])
+p1 = np.array([p1x,p1y])
+#Berechnung der Streuung der Klassen
+S0 = np.array([p - mup0 for p in p0.T]).T
+S1 = np.array([p - mup0 for p in p1.T]).T
+S0 = [np.matrix([s[0],s[1]]).T*(np.matrix([s[0],s[1]])) for s in S0.T]
+S0 = reduce(lambda x,y: x+y, S0)
+S1 = [np.matrix([s[0],s[1]]).T*(np.matrix([s[0],s[1]])) for s in S1.T]
+S1 = reduce(lambda x,y: x+y, S1)
 SW = S0 + S1 #Berechnung der Gesamtstreuung = Within class scatter matrix
-SB = (mup0-mup1)**2 #Streumatrix Between class scatter matrix
-lamb = (1/SW)*(mup0-mup1) #Berechnung der Projektion
+#SB = (mup0-mup1)**2 #Streumatrix Between class scatter matrix
+lamb = SW.I*np.matrix([[(mup0[0]-mup1[0])],[(mup0[1]-mup1[1])]]) #Berechnung der Projektion
+lamb = lamb.T
 print(lamb) 
 ##1dim Hist der Populationen##
-plt.hist(lamb[0]*p0x, label='Population 0')
-plt.hist(lamb[1]*p1x, label='Population 1')
-plt.xlabel(r'$\lambda_x \cdot x$')
-plt.legend(loc='best')
-plt.savefig('Projektion1dimhist.pdf')
+histp0 = np.dot(lamb,[p0x,p0y])
+histp1 = np.dot(lamb,[p1x,p1y])
+#plt.hist(histp0, label='Population 0')
+#plt.hist(histp1, label='Population 1')
+##plt.hist(lamb[0]*p0x, label='Population 0')
+##plt.hist(lamb[0]*p1x, label='Population 1')
+#plt.xlabel(r'$\lambda_x \cdot x$')
+#plt.legend(loc='best')
 #plt.show()
+#plt.savefig('Projektion1dimhist.pdf')
+###
+#plt.clf()
+#x = np.linspace(-15,20,1000)
+#y = np.linspace(-7.5,13,1000)
+#xvec = np.array([x,y])
+##xvec = lamb*xvec.T
+##xvec = xvec.T
+#y = np.dot(lamb,xvec)
+#plt.scatter(p0x,p0y,marker='.',alpha = 0.1)
+#plt.scatter(p1x,p1y,marker='.',alpha = 0.1)
+#plt.scatter(x,y)
+#plt.show()
+
+
+
 
 
 #x = np.linspace(0, 10, 1000)
