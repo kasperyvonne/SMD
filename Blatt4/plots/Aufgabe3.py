@@ -1,13 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-import uncertainties.unumpy as unp
-import scipy.constants as const
-from scipy.optimize import curve_fit
-from uncertainties import correlated_values, correlation_matrix
-from uncertainties import ufloat
-from uncertainties.unumpy import (nominal_values as noms, std_devs as stds)
 import pandas as pd 
 from functools import reduce
+
 ##Einlesen der Daten ##
 Pzero = pd.read_hdf('zwei_populationen.h5',key='P_0_10000')
 Pone = pd.read_hdf('zwei_populationen.h5',key='P_1')
@@ -25,9 +20,14 @@ mup01 = np.array([np.mean(p01x),np.mean(p01y)])
 ##Berechnung der Kovarianzmatrizen##
 Vp0 = np.cov(p0x,p0y)
 Vp1 = np.cov(p1x,p1y)
-Vp01 = np.cov([p0x,p1x],[p0y,p1y])
-Vp01 = np.cov(p01x,p01y)
-Vp001 = np.cov([np.append(p0x,p01x)],[np.append(p0y,p01y)])
+Vp01 = np.cov(np.append(p0x,p1x),np.append(p0y,p1y))
+Vp2 = np.cov(p01x,p01y)
+Vp001 = np.cov(np.append(p0x,p01x),np.append(p0y,p01y))
+print('Kovarianzmatrix p0:',Vp0)
+print('Kovarianzmatrix p1:',Vp1)
+print('Kovarianzmatrix p0 + p1:',Vp01) 
+print('Kovarianzmatrix p01:',Vp2)
+print('Kovarianzmatrix p0 + p01:',Vp001)
 ##Fisher Diskriminanzanalyse##
 p0 = np.array([p0x,p0y]) #shape 2,1000
 p1 = np.array([p1x,p1y])
@@ -49,13 +49,13 @@ lamb = SW.I*np.matrix([[(mup0[0]-mup1[0])],[(mup0[1]-mup1[1])]]) #Berechnung der
 lamb = lamb.T
 lambnorm = np.sqrt(np.dot(lamb,lamb.T)) #lambda normierung
 lamb/= lambnorm #Müsste jetzt Einehitsvektor sein
-print(lamb)
+print('Normiertes Lambda p0:',lamb)
 print(lambnorm)
 lamb001 = SW.I*np.matrix([[(mup0[0]-mup01[0])],[(mup0[1]-mup01[1])]]) #Berechnung der Projektion
 lamb001 = lamb001.T
 lambnorm001 = np.sqrt(np.dot(lamb001,lamb001.T)) #lambda normierung
 lamb001/= lambnorm001 #Müsste jetzt Einehitsvektor sein
-print(lamb001)
+print('Normiertes Lambda p01:',lamb001)
 print(lambnorm001)
 
 ##1dim Hist der Populationen##
@@ -65,14 +65,14 @@ proj0 = projektion(lamb,p0)
 proj1 = projektion(lamb,p1)
 proj01 = projektion(lamb,p01)
 
-plt.hist(proj0, label='Population 0')
-plt.hist(proj1, label='Population 1')
+plt.hist(proj0,bins='auto', label='Population 0',histtype = 'step')
+plt.hist(proj1,bins='auto', label='Population 1',histtype = 'step')
 plt.xlabel(r'$\lambda_x \cdot x$')
 plt.legend(loc='best')
 plt.savefig('Projektion1dimhist.pdf')
 plt.clf()
-plt.hist(proj0, label='Population 0')
-plt.hist(proj1, label='Population 0_1000')
+plt.hist(proj0,bins='auto', label='Population 0',histtype = 'step')
+plt.hist(proj01,bins='auto', label='Population 0_1000',histtype = 'step')
 plt.xlabel(r'$\lambda_x \cdot x$')
 plt.legend(loc='best')
 plt.savefig('2Projektion1dimhist.pdf')
@@ -109,8 +109,8 @@ plt.ylabel(r'Reinheit & Effizizenz')
 plt.legend(loc='best')
 plt.savefig('ReinheitEffizienzplot.pdf')
 plt.clf()
-plt.plot(lambcut[:rein2.size],rein2, '-r', label='Reinheit')
-plt.plot(lambcut[:effi2.size],effi2, '-b', label='Effizienz')
+plt.plot(lambcut2[:rein2.size],rein2, '-r', label='Reinheit')
+plt.plot(lambcut2[:effi2.size],effi2, '-b', label='Effizienz')
 plt.xlabel(r'$\lambda_{Cut}$')
 plt.ylabel(r'Reinheit & Effizizenz')
 plt.legend(loc='best')
@@ -129,6 +129,11 @@ def SBratio(lamcut,lam,P0,P1):
 	return SB
 SBRatio = SBratio(lambcut, lamb, p0,p1)
 SBRatio2 = SBratio(lambcut2, lamb001, p0,p01)
+placeholder = lambcut[:SBRatio.size]
+print('max sbr 1:',placeholder[SBRatio==max(SBRatio)])
+placeholder = lambcut2[:SBRatio2.size]
+print('max sbr2:',placeholder[SBRatio2==max(SBRatio2)])
+
 plt.clf()
 plt.plot(lambcut[:SBRatio.size],SBRatio, label='S/B Quotient')
 plt.xlabel(r'$\lambda_{Cut}$')
@@ -136,7 +141,7 @@ plt.ylabel(r'$S/B \; = \; \frac{true  \; positiv}{false \; positiv}$ ')
 plt.legend(loc='best')
 plt.savefig('SBRatioplot.pdf')
 plt.clf()
-plt.plot(lambcut[:SBRatio2.size],SBRatio2, label='S/B Quotient')
+plt.plot(lambcut2[:SBRatio2.size],SBRatio2, label='S/B Quotient')
 plt.xlabel(r'$\lambda_{Cut}$')
 plt.ylabel(r'$S/B \; = \; \frac{true  \; positiv}{false \; positiv}$ ')
 plt.legend(loc='best')
@@ -155,6 +160,11 @@ def Signiratio(lamcut, lam, P0, P1):
 	return Sign
 Sign = Signiratio(lambcut,lamb,p0,p1)
 Sign2 = Signiratio(lambcut2,lamb001,p0,p01)
+placeholder = lambcut[:Sign.size]
+print('max sign1:',placeholder[Sign==max(Sign)])
+placeholder = lambcut2[:Sign2.size]
+print('max sign2:',placeholder[Sign2==max(Sign2)])
+
 plt.clf()
 plt.plot(lambcut[:Sign.size],Sign, label=r'$S/\sqrt{S+B}$ Quotient')
 plt.xlabel(r'$\lambda_{Cut}$')
@@ -162,7 +172,7 @@ plt.ylabel(r'$S/B \; = \; \frac{true  \; positiv}{false \; positiv + true  \; po
 plt.legend(loc='best')
 plt.savefig('Signifikanzplot.pdf')
 plt.clf()
-plt.plot(lambcut[:Sign2.size],Sign2, label=r'$S/\sqrt{S+B}$ Quotient')
+plt.plot(lambcut2[:Sign2.size],Sign2, label=r'$S/\sqrt{S+B}$ Quotient')
 plt.xlabel(r'$\lambda_{Cut}$')
 plt.ylabel(r'$S/B \; = \; \frac{true  \; positiv}{false \; positiv + true  \; positiv}$ ')
 plt.legend(loc='best')
