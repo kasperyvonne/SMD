@@ -36,29 +36,31 @@ SW = S0 + S1 #Berechnung der Gesamtstreuung = Within class scatter matrix
 #SB = (mup0-mup1)**2 #Streumatrix Between class scatter matrix
 lamb = SW.I*np.matrix([[(mup0[0]-mup1[0])],[(mup0[1]-mup1[1])]]) #Berechnung der Projektion
 lamb = lamb.T
-print(lamb) 
+lambnorm = np.sqrt(np.dot(lamb,lamb.T)) #lambda normierung
+lamb/= lambnorm
 ##1dim Hist der Populationen##
-histp0 = np.dot(lamb,[p0x,p0y])
-histp1 = np.dot(lamb,[p1x,p1y])
-#plt.hist(histp0, label='Population 0')
-#plt.hist(histp1, label='Population 1')
-##plt.hist(lamb[0]*p0x, label='Population 0')
-##plt.hist(lamb[0]*p1x, label='Population 1')
-#plt.xlabel(r'$\lambda_x \cdot x$')
-#plt.legend(loc='best')
-#plt.show()
-#plt.savefig('Projektion1dimhist.pdf')
+def projektion(lam,data):
+	return np.squeeze(np.asarray(np.dot(lam,data)/np.dot(lam,lam.T)))
+proj0 = projektion(lamb,p0)
+proj1 = projektion(lamb,p1)
+#histp0 = np.squeeze(np.asarray(np.dot(lamb,[p0x,p0y])))
+#histp1 = np.squeeze(np.asarray(np.dot(lamb,[p1x,p1y])))
+plt.hist(proj0, label='Population 0')
+plt.hist(proj1, label='Population 1')
+plt.xlabel(r'$\lambda_x \cdot x$')
+plt.legend(loc='best')
+plt.savefig('Projektion1dimhist.pdf')
 ###
-#plt.clf()
+plt.clf()
 #x = np.linspace(-15,20,1000)
 #y = np.linspace(-7.5,13,1000)
 #xvec = np.array([x,y])
-##xvec = lamb*xvec.T
+###xvec = lamb*xvec.T
 ##xvec = xvec.T
-#y = np.dot(lamb,xvec)
+#y = np.squeeze(np.asarray(np.dot(lamb,xvec)))
 #plt.scatter(p0x,p0y,marker='.',alpha = 0.1)
 #plt.scatter(p1x,p1y,marker='.',alpha = 0.1)
-#plt.scatter(x,y)
+##plt.scatter(x,y)
 #plt.show()
 
 
