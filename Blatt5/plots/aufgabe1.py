@@ -15,7 +15,7 @@ def Akzeptanz(E):
     return((1-np.exp(-0.5*E))**3)
 
 
-def Polarmethode(E):
+def HitsSim(E):
     i = 0
     x = -1
     while i == 0:
@@ -29,10 +29,34 @@ def Polarmethode(E):
             c1 = v1*term
             c2 = v2*term
             x = 2*E*c1+2*E*c2+10*E
+            x = np.round(x)
             if (x > 0):
-                x = np.round(x)
                 i = 1
     return(x)
+
+
+def OrtsSim(N):
+    TrefferX = TrefferY = Treffer = 0
+    while Treffer == 0:
+        u1 = np.random.uniform(-1, 1)
+        u2 = np.random.uniform(-1, 1)
+        v1 = 2*u1-1
+        v2 = 2*u2-1
+        s = v1**2+v2**2
+        if (s < 1):
+            term = np.sqrt(-(2/s)*np.log(s))
+            sig = 1/(np.log10(N+1))
+            c1 = v1*term
+            c2 = v2*term
+            x = sig*c1+sig*c2+7
+            y = sig*c2+3
+            if (0 <= x <= 10) and (TrefferX == 0):
+                TrefferX = 1
+            if (0 <= y <= 10) and (TrefferY == 0):
+                TrefferY = 1
+            if (TrefferY == 1 and TrefferX == 1):
+                Treffer = 1
+    return((x, y))
 
 
 # Aufgabenteil a)
@@ -60,10 +84,25 @@ plt.xlabel(r'$E/\mathrm{TeV}$')
 plt.ylabel(r'Ereignisse')
 plt.savefig('Energie.pdf')
 plt.clf()
+print(len(DetEnergie))
 # Aufgabenteil c)
 Hits = np.zeros(len(DetEnergie), dtype=int)
 for j in np.arange(0, len(DetEnergie)):
-    Hits[j] = Polarmethode(DetEnergie[j])
+    Hits[j] = HitsSim(DetEnergie[j])
+# plt.hist(Hits, bins=50, range=[0, 100], histtype='step')
+# plt.show()
 
-plt.hist(Hits, bins=50, range=[0, 100], histtype='step')
-plt.show()
+# Aufgabenteil d)
+
+Ort = np.zeros((len(DetEnergie), 2))
+for k in np.arange(0, len(DetEnergie)):
+    Ort[k:] = OrtsSim(Hits[k])
+
+plt.hist2d(Ort[:, 0], Ort[:, 1], bins=[50, 50],
+           range=[[0, 10], [0, 10]], cmap='viridis')
+plt.plot(7, 3, 'rx')
+plt.colorbar()
+plt.xlabel(r'$x$')
+plt.ylabel(r'$y$')
+plt.savefig('Ort.pdf')
+plt.clf()
