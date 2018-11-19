@@ -30,10 +30,10 @@ for i in np.arange(0, Esize):
         Detektiert[i] = True
 
 DetEnergie = Energie[Detektiert]
-plt.hist(Energie, bins=np.logspace(0, 3), histtype='step',
+plt.hist(Energie, bins=np.logspace(0, 3), histtype='step', density='True',
          label='Energie')
 plt.hist(DetEnergie, bins=np.logspace(0, 3), histtype='step', linestyle='--',
-         label='Detektierte Energie')
+         density='True',label='Detektierte Energie')
 plt.loglog()
 plt.legend()
 plt.xlabel(r'$E/\mathrm{TeV}$')
