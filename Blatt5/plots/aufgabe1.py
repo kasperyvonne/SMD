@@ -28,7 +28,7 @@ def HitsSim(E):
             term = np.sqrt(-(2/s)*np.log(s))
             c1 = v1*term
             c2 = v2*term
-            x = 2*E*c1+2*E*c2+10*E
+            x = 2*E*c1+10*E
             x = np.round(x)
             if (x > 0):
                 i = 1
@@ -38,8 +38,8 @@ def HitsSim(E):
 def OrtsSim(N):
     TrefferX = TrefferY = Treffer = 0
     while Treffer == 0:
-        u1 = np.random.uniform(-1, 1)
-        u2 = np.random.uniform(-1, 1)
+        u1 = np.random.uniform(0, 1)
+        u2 = np.random.uniform(0, 1)
         v1 = 2*u1-1
         v2 = 2*u2-1
         s = v1**2+v2**2
@@ -89,8 +89,10 @@ print(len(DetEnergie))
 Hits = np.zeros(len(DetEnergie), dtype=int)
 for j in np.arange(0, len(DetEnergie)):
     Hits[j] = HitsSim(DetEnergie[j])
-# plt.hist(Hits, bins=50, range=[0, 100], histtype='step')
-# plt.show()
+plt.hist(Hits, bins=50, range=[0, 100], histtype='step')
+plt.xlabel(r'$Anzahl der Hits$')
+plt.savefig('Hits.pdf')
+plt.clf()
 
 # Aufgabenteil d)
 
@@ -106,3 +108,5 @@ plt.xlabel(r'$x$')
 plt.ylabel(r'$y$')
 plt.savefig('Ort.pdf')
 plt.clf()
+
+# Aufgabenteil e)
