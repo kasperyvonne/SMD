@@ -1,5 +1,6 @@
 import numpy as np
-# import pandas as pd
+import pandas as pd
+from tqdm import tqdm
 import matplotlib.pyplot as plt
 
 
@@ -36,7 +37,7 @@ def HitsSim(E):
 
 
 def OrtsSim(N):
-    TrefferX = TrefferY = Treffer = 0
+    Treffer = 0
     while Treffer == 0:
         u1 = np.random.uniform(0, 1)
         u2 = np.random.uniform(0, 1)
@@ -50,11 +51,27 @@ def OrtsSim(N):
             c2 = v2*term
             x = sig*c1+sig*c2+7
             y = sig*c2+3
-            if (0 <= x <= 10) and (TrefferX == 0):
-                TrefferX = 1
-            if (0 <= y <= 10) and (TrefferY == 0):
-                TrefferY = 1
-            if (TrefferY == 1 and TrefferX == 1):
+            if (0 <= x <= 10) and (0 <= y <= 10):
+                Treffer = 1
+    return((x, y))
+
+
+def OrtBKG(N):
+    Treffer = 0
+    while Treffer == 0:
+        u1 = np.random.uniform(0, 1)
+        u2 = np.random.uniform(0, 1)
+        v1 = 2*u1-1
+        v2 = 2*u2-1
+        s = v1**2+v2**2
+        if (s < 1):
+            term = np.sqrt(-(2/s)*np.log(s))
+            sig = 3
+            c1 = v1*term
+            c2 = v2*term
+            x = np.sqrt(0.75)*sig*c1+0.5*sig*c2+5
+            y = 0.5*sig*c2+5
+            if (0 <= x <= 10) and (0 <= y <= 10):
                 Treffer = 1
     return((x, y))
 
@@ -65,6 +82,9 @@ x = np.random.uniform(0, 1, Esize)
 Energie = np.empty(Esize)
 Energie = Signal(x)
 
+df = pd.DataFrame()
+# Ein DataFrame für die Energiemessung und für die AcceptanceMask da diese gleich lang sind
+df['Energy'] = Energie[0:]
 # Aufgabenteil b)
 x2 = np.random.uniform(0, 1, Esize)
 Detektiert = np.zeros(Esize, dtype=bool)
@@ -85,6 +105,7 @@ plt.ylabel(r'Ereignisse')
 plt.savefig('Energie.pdf')
 plt.clf()
 print(len(DetEnergie))
+df['AcceptanceMask'] = Detektiert[0:]
 # Aufgabenteil c)
 Hits = np.zeros(len(DetEnergie), dtype=int)
 for j in np.arange(0, len(DetEnergie)):
@@ -93,7 +114,10 @@ plt.hist(Hits, bins=50, range=[0, 100], histtype='step')
 plt.xlabel(r'$Anzahl der Hits$')
 plt.savefig('Hits.pdf')
 plt.clf()
-
+df2 = pd.DataFrame()
+# Ein weiters DataFrame da die weiteren Daten nur auf den akzeptierten Energien
+# berechnet werden.
+df2['NumberofHits'] = Hits[0:]
 # Aufgabenteil d)
 
 Ort = np.zeros((len(DetEnergie), 2))
@@ -108,5 +132,40 @@ plt.xlabel(r'$x$')
 plt.ylabel(r'$y$')
 plt.savefig('Ort.pdf')
 plt.clf()
+df2['x'] = Ort[:, 0]
+df2['y'] = Ort[:, 1]
 
 # Aufgabenteil e)
+
+BKGSize = 100000
+mu = 2
+sigma = 1
+log10_N_BKG = np.random.normal(mu, sigma, BKGSize)
+N_BKG = 10**log10_N_BKG
+Ort_BKG = np.zeros((BKGSize, 2))
+
+for l in tqdm(np.arange(0, BKGSize)):
+    Ort_BKG[l:] = OrtBKG(N_BKG[l])
+
+df_BKG = pd.DataFrame()
+df_BKG['NumberofHits'] = N_BKG[0:]
+df_BKG['x'] = Ort_BKG[:, 0]
+df_BKG['y'] = Ort_BKG[:, 1]
+
+plt.hist2d(Ort_BKG[:, 0], Ort_BKG[:, 1], bins=[50, 50],
+           range=[[0, 10], [0, 10]], cmap='viridis')
+plt.colorbar()
+plt.xlabel(r'$x$')
+plt.ylabel(r'$y$')
+plt.savefig('Ort_BKG.pdf')
+plt.clf()
+
+plt.hist(log10_N_BKG, bins=48, range=[0, 6], histtype='step',
+         label='Background')
+plt.legend()
+plt.xlabel(r'$Logarithmus der Anzahl der Hits$')
+plt.savefig('Hits_BKG.pdf')
+plt.clf()
+dfSignal = pd.concat([df, df2], axis=1)
+dfSignal.to_hdf('NeutrinoMC.hdf5', key='Energy')
+df_BKG.to_hdf('NeutrinoMC.hdf5', key='Background')
