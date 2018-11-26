@@ -1,6 +1,20 @@
 \section{Aufgabe1}
 \label{sec:Aufgabe1}
 %\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+Die erzeugte HDF5 Datei enthält die Daten für die Energie, und Akzeptanz mit
+mit der Länge $10^5$ sowie die Hits, und x-, y-Werte mit einer Länge von etwa
+$25000$, da diese nur auf den akzeptierten Energien berechnet werden. Dabei sind die
+ Werte nicht passend zu den mit $True$ makierten Ereignissen. Die Überbleibenden Plätze
+ sind mit $NaN$ gefüllt.
+ \begin{figure}[h]
+   \centering
+   \includegraphics[width=0.7\textwidth]{pics/Terminal.png}
+   \caption{Beispiel des DataFrames.}
+   \label{fig:Data}
+ \end{figure}
+  Beispiel hier: Die Anzahl der Hits in Zeile 0 gehört zu der ersten mit $True$
+  gezeichneten Energie, also aus Zeile 3.
+
 \subsection{Teilaufgabe a)}
 Um die $10^5$ Signalereignisse mit der Transformationsmethode zu gernerieren werden
 mit
@@ -36,9 +50,10 @@ Das Ergebnis ist in dem 2D-Histogramm \ref{fig:Ort} aufgetragen.
 \end{figure}
 Dabei wurden jeweils 50 Bins in die beiden Richtungen gewählt.
 \subsection{Aufgabenteil e)}
-Die hier gezeigten Berechnungen sind mit nur $10^5$ Untergrund-Ereignissen durchgeführt,
-da die verwendete Funktion für die Ortsauflösung laufzeitungünstig geschrieben ist. Mit $10^7$ Ereignissen würde das Programm ca.
-370 Stunden laufen. Leider hatte ich nicht mehr die Zeit die Funktion sinnvoll umzuschreiben.
+Die hier gezeigten Berechnungen sind nur mit $10^5$ Untergrund-Ereignissen durchgeführt,
+da die verwendete Funktion für die Ortsauflösung laufzeitmäßig ungünstig geschrieben ist.
+Mit $10^7$ Ereignissen würde das Programm ca.
+370 Stunden laufen. Leider hatte ich nicht mehr die Zeit die Funktion sinnvoll neu zu schreiben.
 \begin{figure}[h]
   \centering
   \includegraphics[height = 8cm]{plots/Ort_BKG.pdf}
