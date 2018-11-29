@@ -10,6 +10,7 @@ Feuchtigkeit = np.array([85, 90, 78, 96, 80, 70, 65, 95, 70, 80, 70,
 Wind = np.array([0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1])
 Fussball = np.array([0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0])
 
+
 # Definitionen und bums
 def Entropie(zp, zn, z):
     wertP = zp / z
