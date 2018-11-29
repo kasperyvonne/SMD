@@ -1,3 +1,48 @@
 \section{Aufgabe1}
 \label{sec:Aufgabe1}
-\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+%\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+\paragraph{a)} 
+Sind die Populationen unterschiedlich stark vertretten neigt der KNN Algorithmus dazu die 
+Elemente ehr in die stärker vertrettene Population einzuordnen, da es immer mehr k-Nachbarn von  
+der größeren Population geben wird.  
+\paragraph{b)} Der Algorithmus wird als \enquote{lazy learner} bezeichnet, da ein Teil des Lehrprozesses 
+beinhaltet, dass der Trainingsdatensatz teilweise abgespeichert wird. Das wir in der Literatur als 
+\enquote{lazy learning} bezeichnet. Im Vergleich zu anderen Algorithmus sehr kosten günstig, da 
+er nur auf jedes Element des zu analysierenden Datensatzes angewendet werden muss (N Iterationen). 
+Dabei spielt es keine Rolle in wieviel Dimensionen das Problem analysiert werden muss, 
+so lange es ein geeignetes Abstandsmaß gibt. Genau an dieser Stelle sticht der KNN den SVM 
+aus, da die Recheneffiziens des SVM stark von der Dimension des Problems abhängt.
+\paragraph{c)}\quad \newline
+\lstinputlisting[language=Python, firstline=3, lastline=65]{plots/class_structure.py}
+\paragraph{d,e,f)}
+Werte einlesen, Trainingsdatenset erstellen, Datenset erstellen:
+\lstinputlisting[language=Python, firstline=66, lastline=84]{plots/class_structure.py} 	
+Werte nach folgender Form durch den KNN jagen (einmal für d gezeigt):
+\lstinputlisting[language=Python, firstline=86, lastline=89]{plots/class_structure.py}
+Funktion die Reinheit, Effizienz und Signifikanz bestimmt (Werte dazu in \ref{tab:tab}):
+\lstinputlisting[language=Python, firstline=100, lastline=112]{plots/class_structure.py}
+In d) sieht man gut was in a) diskutiert wird, da der Untergrund doppelt so groß ist wie das 
+Signal werden nur noch ca. ein Fünftel richtig zu geordnet. 
+Das erklärt warum Reinheit und Effizienz klein ausfallen. 
+Bei der Signifikanz ist iwas schief gelaufen. \\
+Bei der e) sieht man, dass die Anzahl der Hits wesentliches Attribut zur Unterscheidung darstellt. 
+Der Logarithmus sorgt dafür, dass die Werte dahingehend näher zusammenrücken und können nicht mehr 
+unterschieden werden vom Untergrund. \\
+In der f) tritt dann, das so genannte Overfitting ein, $k = 10$ scheint schon ein guter  
+Wert zu seien, um beide Population zu trennen. $k = 20$ dagegen scheint dagegen ins Overfitting 
+zu gehen, da Reinheit, Effizienz (und Signifikanz) abnehmen. 
+\begin{table}
+ \centering
+ \begin{tabular}{c|ccc}
+   \toprule
+	Teilaufgabe & Reinheit & Effizienz & Signifikanz \\
+   \midrule
+	d)&0.0921& 0.1842& 13.94878250362136\\
+	e)&0.0& 0.0& 0.0\\
+	f)&0.08535& 0.1707& 13.290603196745186\\
+   \bottomrule
+ \end{tabular}
+ \caption{Reinheit, Effizienz und Signifikanz für die einzelnen teilaufgaben.}
+ \label{tab:tab}
+\end{table}
+                              
