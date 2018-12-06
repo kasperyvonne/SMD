@@ -1,3 +1,47 @@
 \section{Aufgabe 3}
 \label{sec:Aufgab3}
-\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+%\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+\paragraph{a)} \quad \newline
+$x_i$ ist M dimensionaler Spaltenvektor. \\
+$f(x_i , W ,b)$ ist eine vektorwertige Funktion \rightarrow K dim. Spaltenvektor. \\
+$W$ ist K$\times$M-Matrix. \\
+$C$ ist ein Skalar. \\
+$\nabla_W \hat{C} $ ist eine K$\times$M-Matrix.\\
+$\nabla_{f_i} \hat{C}$ ist ein K dim. Spaltenvektor. \\
+$\frac{\partial f_{k,i}}{\partial W}$ ist K$\times$M-Matrix.\\ 
+$\frac{\partial f_{k,i}}{\partial b }$ K dim Spaltenvektor.\\
+\paragraph{b)}
+Für Klasse $a$ folgt:
+\begin{gather}
+\nabla_{f_a} C(f) = \frac{1}{m} \sum_{i=1}^m \left(\symbf{1}(y_i = a) 
+\nabla \log \frac{\exp(f_{a,i})}{\sum_j \exp(f_{j,i})} \right)
+\end{gather}
+Mit 
+\begin{gather}
+\nabla \log \frac{\exp(f_{a,i})}{\sum_j \exp{f_{j,i}}} = 
+\nabla \left(\log \exp(f_{a,i})- \log\sum_j \exp(f_{j,i})\right) \\
+= \exp(-f_{a,i}) \cdot \nabla \exp(f_{a,i}) - \frac{1}{\sum_j \exp(f_{j,i})} \cdot \nabla \sum_j \exp(f_{j,i})\\ 
+\text{mit} \qquad  \exp(-f_{a,i}) \cdot \nabla \exp(f_{a,i}) = \symbf{1}(y_i = a) \\
+\implies \symbf{1}(y_i = a)- \frac{\exp(f_{j,i})}{\sum_j \exp(f_{j,i})}\\ 
+\implies \nabla_{f_a} C(f)=\frac{1}{m} \sum_{i=1}^m \left(\symbf{1}(y_i = a)- \frac{\exp(f_{j,i})}{\sum_j \exp(f_{j,i})} \right)
+\end{gather}
+\paragraph{c)}
+\begin{gather}
+\frac{\partial f_{k,i}}{\partial W} =\frac{\partial W_k \cdot x_i}{\partial W} +\frac{\partial b_{k}}{\partial W}= 
+\begin{pmatrix}
+\vdots \\
+\delta_{a ,k} x_i ^T \\
+\vdots
+\end{pmatrix}
+\quad K\times M -\text{Matrix}
+\end{gather}
+\begin{gather}
+\frac{\partial f_{k,i}}{\partial b} = 
+\frac{\partial W_k \cdot x_i}{\partial b} +\frac{\partial b_{k}}{\partial b}=
+\begin{pmatrix}
+\vdots \\
+\delta_{a ,k} \\
+\vdots
+\end{pmatrix}
+\quad K \text{dim. Vektor}
+\end{gather}
