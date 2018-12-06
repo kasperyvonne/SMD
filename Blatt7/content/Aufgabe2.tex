@@ -1,3 +1,35 @@
 \section{Aufgabe 2}
 \label{sec:Aufgabe2}
-\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+% \lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+\subsection{a)}
+Die Loss Funktion beschreibt den Schaden, der bei einem Entscheidungsproblem entsteht.
+Dabei ordnet sie jeder Entscheidung einen Schaden zu, welcher durch die Abweichung von dem wahren Parameter entsteht.
+Eine Loss Funktion
+\begin{equation}
+  L[Y, f(x)]
+\end{equation}
+wird durch die wahren Outputparameter $Y$ und die aus den Startparametern $x$ gefundene Funktion $f(x)$ beschrieben.
+Die Funktion $f(x)$ gibt dabei eine Approximation für die Outputparameter an.
+
+\subsection{b)}
+Least Square Method, Support Vector Machines, Gradientenverfahren, uvm.
+
+\subsection{c)}
+Aktivierungsfunktionen sind nichtlinear und dienen dazu den Raum bei der Transformation so zu verzerren, dass Daten im verzerrten Raum mit geraden Schnitten getrennt werden können.
+Ohne die Aktivierungsfunktion wäre ein Neuronales Netz unsinnvoll, weil weiterhin einfach eine Reihe von linearen Transformationen durchgeführt wird.\\
+Gängige Aktivierungsfunktionen sind z.B. der Tangens-Hyperbolicus-Funktion, die ReLU(Rectified-Linear-Unit)-Aktivierungsfunktion
+\begin{equation}
+  f(x) = max(0,x)
+\end{equation}
+und die Leaky-ReLU-Funktion
+\begin{equation}
+  f(x) = \symbb{1}(x<0)(\alpha x) + \symbb{1}(x\geq0)(x)
+\end{equation}
+
+\subsection{d)}
+
+Die Zahl der Neuronen ist die Summe der Hidden-Layer und Output-Layer also alle Layer zu denen Informationen hingehen und verarbeitet werden.
+
+\subsection{e)}
+Bildsignalverarbeitung,
+Trennen von Kreisförmig angeordneten Daten
