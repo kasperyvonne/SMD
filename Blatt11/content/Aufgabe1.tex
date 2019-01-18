@@ -1,3 +1,31 @@
 \section{Aufgabe1}
 \label{sec:Aufgabe1}
-\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+%\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+Wir betrachten zwei Hypotesen:
+\begin{equation}
+\Delta E_A = \SI{31.3}{\milli\eV} \quad \text{und} \quad \Delta E_B = \SI{30.7}{\milli\eV} \; .
+\end{equation}
+Der $\chi^2$-Test wird wie folgt durch geführt:
+\begin{equation}
+ t = \sum_{i=1} ^{n} \frac{(\Delta E_i - \Delta E_H)^2}{\sigma_{t,i} ^2} = \chi^2 \; ,  	
+\label{eq:test}
+\end{equation}
+dabei bezeichnet $t$ die Testgröße, $\Delta E_i$ die Messwerte, $\Delta E_H$ den Wert der Hypothese und 
+$\sigma{t,i}^2= 0,5$ den Fehler dessen. Die Hypothese wird angenommen, wenn $t$ einer $\chi^2$-Verteilung folgt. 
+Das wird überprüft indem die $\chi^2$-Verteilung für die $n$ Freiheitsgerade der Messwerte betrachtet wird und 
+ein Annahme- und Verwurfsbereich abgesteckt wird. Der Annahmebreich enthält $(1-\alpha)$ der Fläche unter der 
+Wahrscheinlichkeitsdichte des Testes. Der Verwurfsbreich enthält $\alpha$ der Fläche und ist die 
+Signifikanz. \\
+Hier ist $n =7$ und $\alpha = 0,05$, damit ergibt sich $\chi^2_{(1-\alpha)} =14,07$\footnote{Entnommen aus 
+\url{http://eswf.uni-koeln.de/glossar/chivert.htm}.}. 
+Mit Gleichung \eqref{eq:test} ergibt sich 
+\begin{equation}
+t_A \approx 3,04 \quad \text{und} \quad t_B \approx 10,96 \; .
+\end{equation}
+Für beide Testgrößen gilt $ \leq 14,07$ damit wären beide Hypotesen angenommen. 
+Bei genauerer Betrachtung ist $ t_A < t_B \leq 14,7$ also $t_B$ wesentlich nähr an der Verteilung als 
+$t_A$. Deshalb sollte die Hypotese A verworfen werden und die Hypotese B weiterverfolgt werden, da diese 
+die Messung besser beschreibt.
+ 
+
+
