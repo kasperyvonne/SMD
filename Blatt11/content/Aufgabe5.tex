@@ -1,0 +1,52 @@
+\section{Aufgabe 5}
+\label{sec:Aufgabe5}
+%\lstinputlisting[language=Python, firstline=15, lastline=21]{plots/plot.py}
+\paragraph{a} Die Nullhypotese hier besagt, dass der Bin $i$ den Erwartungswert $\mu_i$ besitzt. Die 
+Zahl der Eintrage $n_i$ im Bin $i$ sind Zufallsvariablen verteilt gemäß der Poisson-Verteilung. 
+Damit folgt
+\begin{gather}
+P(n_i \vert \mu_i) = \frac{\mu_{i}^{ n_i} \exp(-\mu_i)}{n_i !} 	
+\quad \text{für} \quad n_i \\
+P(m_i \vert \mu_i) = \frac{\mu_{i}^{ m_i} \exp(-\mu_i)}{m_i !} 	
+\quad \text{für} \quad m_i 
+\end{gather}
+die Wahrscheinlichkeitsdichte für ein Eintrag in einem Bin. 
+
+\paragraph{b}
+Hier bietet es sich an die negative Log-Likelyhood Funktion zu verwenden. 
+\begin{equation}
+\begin{split}
+F(\mu_i) &= - \sum_{i=1}^r \log(P(n_i \vert \mu_i)\cdot P(m_i \vert \mu_i))\\
+&= - \sum_{i=1}^r \log \left(\frac{\mu_{i}^{ n_i} \exp(-\mu_i)}{n_i !} \right)
+-\sum_{i=1}^r \log \left(\frac{\mu_{i}^{ m_i} \exp(-\mu_i)}{m_i !} \right)\\
+&= - \sum_{i=1}^r (n_i+m_i)\log(\mu_{i})  +2\sum_{i=1}^r\mu_i + 
+\underbrace{\sum_{i=1}^r \log(n_i !\cdot m_i!)}_{ =konst  \text{, da $\mu_i$ unabhängig}}
+\end{split}
+\end{equation}
+Die Likelyhood muss nun minimiert werden,deshalb
+\begin{gather}
+\frac{d F(\mu_i)}{d\mu_i} \stackrel{!}{=} 0 \\
+\frac{d F(\mu_i)}{d\mu_i} =  - \sum_{i=1}^r \frac{(n_i + m_i)}{\mu_{i}}  +2\sum_{i=1}^r 1  \\
+\implies - \frac{1}{\mu_{i}}\sum_{i=1}^r (n_i + m_i) + 2r = 0 \\
+\implies \hat{\mu_i} = \frac{\sum_{i=1}^r  (n_i + m_i)}{2r} = \frac{N + M}{2r}
+\end{gather}
+
+\paragraph{c}
+Der $\chi^2$-Test ist gegeben über
+\begin{equation}
+ t = \chi^2 = \sum_{i=1}^r \frac{(n_i-n_0)^2}{n_0}+\sum_{i=1}^r \frac{(m_i-m_0)^2}{m_0} 
+\end{equation}
+mit $n_0 = \frac{N}{r}$ und $m_0 = \frac{M}{r}$.
+
+\paragraph{d} 
+Die $\chi^2$-Verteilung hat $k=r$ Freiheitsgerade, vorrausgesetzt die Einträge sind nicht normiert. 
+Dann wäre der Freiheitsgerade $k= r-1$.\\
+Für den hier verwendeten $\chi^2$-Test wird die Gaußsche-Nährung $\sigma^2 = n_0$ verwendet, diese 
+ist aber nur für $n_o$ hinreichend groß $(>10)$ erfüllt. Ist $n_0 < 10$ kann dem Test nicht mehr vertraut 
+werden, da er nicht mehr einer $\chi^2$-Verteilung folgt.
+\paragraph{e}
+Für den angegeben $\chi^2$-Test ergibt sich $t\approx 8.43$.
+Nun werden die Signifikanzen $\alpha = 0,1 ; 0,05 ; 0,01$ betraachtet, damit ergibt sich 
+$(1-\alpha) = 0,9 ; 0,95 ; 0,99$. Die dazu gehörigen $\chi^2$-Werte für $k = 3$ sind 
+$\chi^2(3) = 6,25;7,81;	11,34$ damit würde die Nullhypotese nur für $\alpha=0,01$ nicht verworfen werden. 
+
